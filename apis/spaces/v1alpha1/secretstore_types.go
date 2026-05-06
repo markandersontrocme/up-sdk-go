@@ -17,7 +17,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	corev1 "k8s.io/api/core/v1"
 
 	esv1 "github.com/external-secrets/external-secrets/apis/externalsecrets/v1"
@@ -188,7 +188,7 @@ type SharedSecretStoreStatus struct {
 	// +listMapKey=controlPlane
 	Provisioned []SecretStoreProvisioningSuccess `json:"provisioned,omitempty"`
 
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 }
 
 // SecretStoreProvisioningFailure defines secret store provisioning failure.

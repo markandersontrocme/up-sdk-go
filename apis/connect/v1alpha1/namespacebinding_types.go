@@ -8,7 +8,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // NamespaceBinding defines the specific credentials to be used
@@ -51,7 +51,7 @@ type NamespaceBindingSpec struct {
 
 // NamespaceBindingStatus defines the observed state of a NamespaceBinding.
 type NamespaceBindingStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// Message provides human-readable information about the current status of
 	// the NamespaceBinding.

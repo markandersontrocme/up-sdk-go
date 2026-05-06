@@ -8,8 +8,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	pkgv1 "github.com/crossplane/crossplane/v2/apis/pkg/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
 // TODO(sttts): Move to up-sdk-go
@@ -205,4 +205,14 @@ func (in *RemoteConfiguration) GetCommonLabels() map[string]string {
 // SetCommonLabels sets the common labels.
 func (in *RemoteConfiguration) SetCommonLabels(l map[string]string) {
 	in.Spec.CommonLabels = l
+}
+
+// GetCommonAnnotations returns the common annotations.
+func (in *RemoteConfiguration) GetCommonAnnotations() map[string]string {
+	return in.Spec.CommonAnnotations
+}
+
+// SetCommonAnnotations sets the common annotations.
+func (in *RemoteConfiguration) SetCommonAnnotations(a map[string]string) {
+	in.Spec.CommonAnnotations = a
 }

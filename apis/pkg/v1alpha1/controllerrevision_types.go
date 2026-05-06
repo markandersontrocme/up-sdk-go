@@ -7,8 +7,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	pkgv1 "github.com/crossplane/crossplane/v2/apis/pkg/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
 // ControllerPackagingType defines an enum for the controller package type.
@@ -244,6 +244,16 @@ func (in *ControllerRevision) GetCommonLabels() map[string]string {
 // SetCommonLabels sets the common labels.
 func (in *ControllerRevision) SetCommonLabels(l map[string]string) {
 	in.Spec.CommonLabels = l
+}
+
+// GetCommonAnnotations returns the common annotations.
+func (in *ControllerRevision) GetCommonAnnotations() map[string]string {
+	return in.Spec.CommonAnnotations
+}
+
+// SetCommonAnnotations sets the common annotations.
+func (in *ControllerRevision) SetCommonAnnotations(a map[string]string) {
+	in.Spec.CommonAnnotations = a
 }
 
 // GetRuntimeConfigRef returns the runtime config reference.

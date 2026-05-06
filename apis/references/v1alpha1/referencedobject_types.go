@@ -22,7 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // ObjectParameters are the configurable fields of a Object.
@@ -192,7 +192,7 @@ type Readiness struct {
 
 // A ObjectStatus represents the observed state of a Object.
 type ObjectStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// AtProvider is the object's observed state.
 	// +optional

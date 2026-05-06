@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 )
@@ -88,7 +88,7 @@ type SharedBackupFailuresConfig struct {
 
 // SharedBackupStatus represents the observed state of a SharedBackup.
 type SharedBackupStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// Phase represents the current phase of the SharedBackup.
 	// +kubebuilder:validation:Enum=Pending;InProgress;Failed;Completed

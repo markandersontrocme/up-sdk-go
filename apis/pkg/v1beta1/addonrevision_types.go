@@ -7,8 +7,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	pkgv1 "github.com/crossplane/crossplane/v2/apis/pkg/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
 // AddOnPackagingType defines an enum for the addon package type.
@@ -246,6 +246,16 @@ func (in *AddOnRevision) GetCommonLabels() map[string]string {
 // SetCommonLabels sets the common labels.
 func (in *AddOnRevision) SetCommonLabels(l map[string]string) {
 	in.Spec.CommonLabels = l
+}
+
+// GetCommonAnnotations returns the common annotations.
+func (in *AddOnRevision) GetCommonAnnotations() map[string]string {
+	return in.Spec.CommonAnnotations
+}
+
+// SetCommonAnnotations sets the common annotations.
+func (in *AddOnRevision) SetCommonAnnotations(a map[string]string) {
+	in.Spec.CommonAnnotations = a
 }
 
 // GetRuntimeConfigRef returns the runtime config reference.

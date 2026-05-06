@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // APIServiceExport specifies the resource to be exported. Its spec
@@ -198,7 +198,7 @@ type ControlPlaneNameRef struct {
 
 // APIServiceExportStatus defines the observed state of a APIServiceExport.
 type APIServiceExportStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	APIServiceExportCRDSpec `json:",inline"`
 	// Message provides human-readable information about the current status of

@@ -8,7 +8,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // ClusterBinding represents a bound consumer cluster.
@@ -48,7 +48,7 @@ type ClusterBindingSpec struct{}
 type ClusterBindingStatus struct {
 	// conditions is a list of conditions that apply to the ClusterBinding. It is
 	// updated by the konnector agent and the service provider.
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 	// description is the human-readable description of the consumer cluster.
 	// +optional
 	Description string `json:"description,omitempty"`

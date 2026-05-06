@@ -26,7 +26,7 @@ import (
 
 	"github.com/upbound/up-sdk-go/apis/common"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // +kubebuilder:object:root=true
@@ -244,7 +244,7 @@ func BackupControlPlaneNotFound(ns, name string) xpv1.Condition {
 
 // BackupStatus represents the observed state of a Backup.
 type BackupStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// Phase is the current phase of the backup.
 	// +kubebuilder:validation:Enum=Pending;InProgress;Failed;Completed;Deleted

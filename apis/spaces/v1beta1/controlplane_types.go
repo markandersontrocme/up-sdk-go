@@ -19,7 +19,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 	"github.com/upbound/up-sdk-go/apis/common"
 )
@@ -254,7 +254,7 @@ type Restore struct {
 
 // A ControlPlaneStatus represents the observed state of a ControlPlane.
 type ControlPlaneStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 	// Message is a human-readable message indicating details about why the
 	// ControlPlane is in this condition.
 	Message        string `json:"message,omitempty"`

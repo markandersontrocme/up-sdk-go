@@ -19,7 +19,7 @@ import (
 
 	"github.com/upbound/up-sdk-go/apis/common"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -167,7 +167,7 @@ type Pipeline struct {
 
 // SharedTelemetryConfigStatus represents the observed state of a SharedTelemetryConfig.
 type SharedTelemetryConfigStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// SelectedControlPlanes represents the names of the selected ControlPlanes.
 	// +optional
@@ -188,7 +188,7 @@ type SharedTelemetryConfigStatus struct {
 
 // SharedTelemetryConfigProvisioningFailure defines configuration provisioning failure.
 type SharedTelemetryConfigProvisioningFailure struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv1.ManagedResourceStatus `json:",inline"`
 
 	// ControlPlane name where the failure occurred.
 	ControlPlane string `json:"controlPlane"`
