@@ -10,9 +10,11 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: '1.24.3'
-  GOLANGCI_VERSION: 'v1.64.8'
+  GO_VERSION: '1.25.9'
+  GOLANGCI_VERSION: 'v2.10.1'
   DOCKER_BUILDX_VERSION: 'v0.4.2'
+  GOPRIVATE: 'github.com/upbound/*'
+  GONOSUMCHECK: 'github.com/upbound/*'
 
 jobs:
   detect-noop:
@@ -22,7 +24,7 @@ jobs:
     steps:
       - name: Detect No-op Changes
         id: noop
-        uses: fkirc/skip-duplicate-actions@v2.0.0
+        uses: fkirc/skip-duplicate-actions@v5.3.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           paths_ignore: '["**.md", "**.png", "**.jpg"]'
@@ -36,6 +38,9 @@ jobs:
       matrix:
         modules: [".", "./apis"]
     steps:
+      - name: Configure Git credentials for private repositories
+        run: git config --global url."https://upbound-bot:${{ secrets.UPBOUND_BOT_GITHUB_TOKEN }}@github.com".insteadOf "https://github.com"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -71,12 +76,10 @@ jobs:
       # this action because it leaves 'annotations' (i.e. it comments on PRs to
       # point out linter violations).
       - name: Lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v9
         with:
           version: ${{ env.GOLANGCI_VERSION }}
           args: --config=${{ github.workspace }}/.golangci.yaml
-          skip-pkg-cache: true
-          skip-build-cache: true
           working-directory: ${{ matrix.modules }}
 
   lint:
@@ -96,6 +99,9 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
+      - name: Configure Git credentials for private repositories
+        run: git config --global url."https://upbound-bot:${{ secrets.UPBOUND_BOT_GITHUB_TOKEN }}@github.com".insteadOf "https://github.com"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -136,6 +142,9 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
+      - name: Configure Git credentials for private repositories
+        run: git config --global url."https://upbound-bot:${{ secrets.UPBOUND_BOT_GITHUB_TOKEN }}@github.com".insteadOf "https://github.com"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:

@@ -19,7 +19,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 	"github.com/upbound/up-sdk-go/apis/common"
 )
@@ -254,7 +254,7 @@ type Restore struct {
 
 // A ControlPlaneStatus represents the observed state of a ControlPlane.
 type ControlPlaneStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 	// Message is a human-readable message indicating details about why the
 	// ControlPlane is in this condition.
 	Message        string `json:"message,omitempty"`
@@ -338,28 +338,28 @@ type ControlPlaneList struct {
 }
 
 // GetCondition of this ControlPlane.
-func (mg *ControlPlane) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ControlPlane) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetWriteConnectionSecretToReference of this ControlPlane.
-func (mg *ControlPlane) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ControlPlane) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
 		return nil
 	}
-	return &xpv1.SecretReference{
+	return &xpv2.SecretReference{
 		Name:      mg.Spec.WriteConnectionSecretToReference.Name,
 		Namespace: mg.Spec.WriteConnectionSecretToReference.Namespace,
 	}
 }
 
 // SetConditions of this ControlPlane.
-func (mg *ControlPlane) SetConditions(c ...xpv1.Condition) {
+func (mg *ControlPlane) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetWriteConnectionSecretToReference of this ControlPlane.
-func (mg *ControlPlane) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ControlPlane) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = &SecretReference{
 		Name:      r.Name,
 		Namespace: r.Namespace,

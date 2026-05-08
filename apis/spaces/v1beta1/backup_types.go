@@ -24,7 +24,7 @@ import (
 
 	"github.com/upbound/up-sdk-go/apis/common"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // +kubebuilder:object:root=true
@@ -77,7 +77,7 @@ type BackupDefinition struct {
 	// DeletionPolicy is the policy for the backup.
 	// +kube:validation:Enum=Orphan;Delete
 	// +kubebuilder:default=Orphan
-	DeletionPolicy xpv1.DeletionPolicy `json:"deletionPolicy,omitempty"`
+	DeletionPolicy xpv2.DeletionPolicy `json:"deletionPolicy,omitempty"`
 
 	ControlPlaneBackupConfig `json:",inline"`
 
@@ -122,22 +122,22 @@ const (
 // Condition types for backups
 const (
 	// ConditionTypeCompleted indicates that the backup has completed successfully.
-	ConditionTypeCompleted xpv1.ConditionType = "Completed"
+	ConditionTypeCompleted xpv2.ConditionType = "Completed"
 	// ConditionTypeFailed indicates that the backup has failed.
-	ConditionTypeFailed xpv1.ConditionType = "Failed"
+	ConditionTypeFailed xpv2.ConditionType = "Failed"
 )
 
 const (
 	// AllBackupsCompleted indicates that all backups have completed successfully.
-	AllBackupsCompleted xpv1.ConditionReason = "AllBackupsCompleted"
+	AllBackupsCompleted xpv2.ConditionReason = "AllBackupsCompleted"
 	// AtLeastOneFailed indicates that at least one backup has failed.
-	AtLeastOneFailed xpv1.ConditionReason = "AtLeastOneFailed"
+	AtLeastOneFailed xpv2.ConditionReason = "AtLeastOneFailed"
 )
 
 // SharedBackupCompleted returns a condition indicating that all backups have
 // completed successfully.
-func SharedBackupCompleted() xpv1.Condition {
-	return xpv1.Condition{
+func SharedBackupCompleted() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeCompleted,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -145,8 +145,8 @@ func SharedBackupCompleted() xpv1.Condition {
 	}
 }
 
-func SharedBackupCompletedWithFailures(total, failures int32) xpv1.Condition {
-	return xpv1.Condition{
+func SharedBackupCompletedWithFailures(total, failures int32) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeCompleted,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -157,8 +157,8 @@ func SharedBackupCompletedWithFailures(total, failures int32) xpv1.Condition {
 
 // SharedBackupFailed returns a condition indicating that at least one backup
 // has failed.
-func SharedBackupFailed(err error) xpv1.Condition {
-	return xpv1.Condition{
+func SharedBackupFailed(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -169,8 +169,8 @@ func SharedBackupFailed(err error) xpv1.Condition {
 
 // BackupCompletedWithFailures returns a condition indicating that the backup had some failures backing
 // up controlplanes, but is still considered successful within the allowed failure rate.
-func BackupCompletedWithFailures(total, failures int32) xpv1.Condition {
-	return xpv1.Condition{
+func BackupCompletedWithFailures(total, failures int32) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeCompleted,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -181,8 +181,8 @@ func BackupCompletedWithFailures(total, failures int32) xpv1.Condition {
 
 // BackupCompleted returns a condition indicating that the backup has completed
 // successfully.
-func BackupCompleted() xpv1.Condition {
-	return xpv1.Condition{
+func BackupCompleted() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeCompleted,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -192,21 +192,21 @@ func BackupCompleted() xpv1.Condition {
 
 const (
 	// BackupFailedReason is the reason for a failed backup.
-	BackupFailedReason xpv1.ConditionReason = "BackupFailed"
+	BackupFailedReason xpv2.ConditionReason = "BackupFailed"
 	// BackupRetryReason is the reason for a backup being retried.
-	BackupRetryReason xpv1.ConditionReason = "BackupRetry"
+	BackupRetryReason xpv2.ConditionReason = "BackupRetry"
 	// BackupSuccessReason is the reason for a successful backup.
-	BackupSuccessReason xpv1.ConditionReason = "BackupSuccess"
+	BackupSuccessReason xpv2.ConditionReason = "BackupSuccess"
 	// BackupCompletedWithFailuresReason is the reason for a successful backup, with some failures,
 	// within the allowed failure percentage.
-	BackupCompletedWithFailuresReason xpv1.ConditionReason = "BackupWithFailures"
+	BackupCompletedWithFailuresReason xpv2.ConditionReason = "BackupWithFailures"
 	// BackupControlPlaneNotFoundReason is the reason for a control plane not being found.
-	BackupControlPlaneNotFoundReason xpv1.ConditionReason = "TargetControlPlaneNotFound"
+	BackupControlPlaneNotFoundReason xpv2.ConditionReason = "TargetControlPlaneNotFound"
 )
 
 // BackupFailed returns a condition indicating that the backup has failed.
-func BackupFailed(err error) xpv1.Condition {
-	return xpv1.Condition{
+func BackupFailed(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -216,8 +216,8 @@ func BackupFailed(err error) xpv1.Condition {
 }
 
 // BackupRetry returns a condition indicating that the backup is being retried.
-func BackupRetry(msg string) xpv1.Condition {
-	return xpv1.Condition{
+func BackupRetry(msg string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -228,8 +228,8 @@ func BackupRetry(msg string) xpv1.Condition {
 
 // BackupControlPlaneNotFound returns a condition indicating that the control
 // plane was not found.
-func BackupControlPlaneNotFound(ns, name string) xpv1.Condition {
-	return xpv1.Condition{
+func BackupControlPlaneNotFound(ns, name string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -240,7 +240,7 @@ func BackupControlPlaneNotFound(ns, name string) xpv1.Condition {
 
 // BackupStatus represents the observed state of a Backup.
 type BackupStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// Phase is the current phase of the backup.
 	// +kubebuilder:validation:Enum=Pending;InProgress;Failed;Completed;Deleted

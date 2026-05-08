@@ -17,7 +17,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	corev1 "k8s.io/api/core/v1"
 
 	esv1 "github.com/external-secrets/external-secrets/apis/externalsecrets/v1"
@@ -106,24 +106,24 @@ type SharedSecretStoreSpec struct {
 const (
 	// ConditionSecretRefReady indicates the status of any referenced secrets
 	// for API objects that reference a secret.
-	ConditionSecretRefReady = xpv1.ConditionType("SecretRefsReady")
+	ConditionSecretRefReady = xpv2.ConditionType("SecretRefsReady")
 )
 
 const (
 	// ReasonSecretRefMissing is added to object if the referenced secret(s) do not exist
-	ReasonSecretRefMissing = xpv1.ConditionReason("ReferencedSecretNotFound")
+	ReasonSecretRefMissing = xpv2.ConditionReason("ReferencedSecretNotFound")
 	// ReasonSecretRefMissingKey is added when the object if the secret(s) exists, but the key data is missing
-	ReasonSecretRefMissingKey = xpv1.ConditionReason("ReferencedSecretKeyNotFound")
+	ReasonSecretRefMissingKey = xpv2.ConditionReason("ReferencedSecretKeyNotFound")
 	// ReasonSecretRefReady is added when the referenced secret(s) and data are found
-	ReasonSecretRefReady = xpv1.ConditionReason("ReferencedSecretsReady")
+	ReasonSecretRefReady = xpv2.ConditionReason("ReferencedSecretsReady")
 	// ReasonSecretRefNone is added when object does not reference a secret
-	ReasonSecretRefNone = xpv1.ConditionReason("NoReferencedSecrets")
+	ReasonSecretRefNone = xpv2.ConditionReason("NoReferencedSecrets")
 )
 
 // SecretRefsReadyMissing returns a condition indicating that the referenced
 // secret(s) do not exist.
-func SecretRefsReadyMissing() xpv1.Condition {
-	return xpv1.Condition{
+func SecretRefsReadyMissing() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionSecretRefReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -133,8 +133,8 @@ func SecretRefsReadyMissing() xpv1.Condition {
 
 // SecretRefsReadyMissingKey returns a condition indicating that the referenced
 // secret(s) exist, but the key data is missing.
-func SecretRefsReadyMissingKey() xpv1.Condition {
-	return xpv1.Condition{
+func SecretRefsReadyMissingKey() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionSecretRefReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -144,8 +144,8 @@ func SecretRefsReadyMissingKey() xpv1.Condition {
 
 // SecretRefsReadyReady returns a condition indicating that the referenced
 // secret(s) and data are found.
-func SecretRefsReadyReady() xpv1.Condition {
-	return xpv1.Condition{
+func SecretRefsReadyReady() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionSecretRefReady,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -155,8 +155,8 @@ func SecretRefsReadyReady() xpv1.Condition {
 
 // SecretRefsReadyNone returns a condition indicating that the referenced
 // object is not a secret.
-func SecretRefsReadyNone() xpv1.Condition {
-	return xpv1.Condition{
+func SecretRefsReadyNone() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionSecretRefReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -188,7 +188,7 @@ type SharedSecretStoreStatus struct {
 	// +listMapKey=controlPlane
 	Provisioned []SecretStoreProvisioningSuccess `json:"provisioned,omitempty"`
 
-	xpv1.ResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 }
 
 // SecretStoreProvisioningFailure defines secret store provisioning failure.

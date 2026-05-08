@@ -17,7 +17,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	spacesv1alpha1 "github.com/upbound/up-sdk-go/apis/spaces/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -73,11 +73,11 @@ type SpaceBackupCredentials struct {
 	// Source "Secret" requires "get" permissions on the referenced Secret.
 	// +kubebuilder:validation:Enum=Secret;InjectedIdentity
 	// +kubebuilder:validation:Required
-	Source xpv1.CredentialsSource `json:"source"`
+	Source xpv2.CredentialsSource `json:"source"`
 
 	// CommonCredentialSelectors provides common selectors for extracting
 	// credentials.
-	xpv1.CommonCredentialSelectors `json:",inline"`
+	xpv2.CommonCredentialSelectors `json:",inline"`
 }
 
 var (

@@ -22,42 +22,42 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // Condition types for License resource.
 const (
 	// TypeLicenseValid indicates whether the license is valid.
-	TypeLicenseValid xpv1.ConditionType = "LicenseValid"
+	TypeLicenseValid xpv2.ConditionType = "LicenseValid"
 
 	// TypeUsageCompliant indicates whether the current usage is within the licensed capacity.
-	TypeUsageCompliant xpv1.ConditionType = "UsageCompliant"
+	TypeUsageCompliant xpv2.ConditionType = "UsageCompliant"
 
 	// TypeMeasurementSucceeded indicates whether fetching measurements succeeded.
-	TypeMeasurementSucceeded xpv1.ConditionType = "MeasurementSucceeded"
+	TypeMeasurementSucceeded xpv2.ConditionType = "MeasurementSucceeded"
 )
 
 // Reasons for LicenseValid condition.
 const (
-	ReasonSignatureVerified     xpv1.ConditionReason = "SignatureVerified"
-	ReasonFailedToGetLicenseKey xpv1.ConditionReason = "FailedToGetLicenseKey"
-	ReasonLicenseExpiredInGrace xpv1.ConditionReason = "LicenseExpiredInGrace"
-	ReasonLicenseExpiredFinal   xpv1.ConditionReason = "LicenseExpiredFinal"
-	ReasonLicenseInvalid        xpv1.ConditionReason = "LicenseInvalid"
-	ReasonCommunityEdition      xpv1.ConditionReason = "CommunityEdition"
-	ReasonMeasurementActive     xpv1.ConditionReason = "MeasurementActive"
-	ReasonMeasurementFailed     xpv1.ConditionReason = "MeasurementFailed"
+	ReasonSignatureVerified     xpv2.ConditionReason = "SignatureVerified"
+	ReasonFailedToGetLicenseKey xpv2.ConditionReason = "FailedToGetLicenseKey"
+	ReasonLicenseExpiredInGrace xpv2.ConditionReason = "LicenseExpiredInGrace"
+	ReasonLicenseExpiredFinal   xpv2.ConditionReason = "LicenseExpiredFinal"
+	ReasonLicenseInvalid        xpv2.ConditionReason = "LicenseInvalid"
+	ReasonCommunityEdition      xpv2.ConditionReason = "CommunityEdition"
+	ReasonMeasurementActive     xpv2.ConditionReason = "MeasurementActive"
+	ReasonMeasurementFailed     xpv2.ConditionReason = "MeasurementFailed"
 )
 
 // Reasons for UsageCompliant condition.
 const (
-	ReasonWithinCapacity  xpv1.ConditionReason = "WithinCapacity"
-	ReasonExceedsCapacity xpv1.ConditionReason = "ExceedsCapacity"
+	ReasonWithinCapacity  xpv2.ConditionReason = "WithinCapacity"
+	ReasonExceedsCapacity xpv2.ConditionReason = "ExceedsCapacity"
 )
 
 // LicenseValid indicates that the license signature has been successfully verified.
-func LicenseValid() xpv1.Condition {
-	return xpv1.Condition{
+func LicenseValid() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -67,8 +67,8 @@ func LicenseValid() xpv1.Condition {
 }
 
 // LicenseCommunityEdition indicates that the license is active for community edition.
-func LicenseCommunityEdition() xpv1.Condition {
-	return xpv1.Condition{
+func LicenseCommunityEdition() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -79,8 +79,8 @@ func LicenseCommunityEdition() xpv1.Condition {
 
 // LicenseKeyGetFailed indicates that getting the license key failed.
 // Use WithMessage() to provide specific details about what went wrong.
-func LicenseKeyGetFailed() xpv1.Condition {
-	return xpv1.Condition{
+func LicenseKeyGetFailed() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -89,8 +89,8 @@ func LicenseKeyGetFailed() xpv1.Condition {
 }
 
 // LicenseExpiredInGrace indicates that the license has expired but is still in grace period.
-func LicenseExpiredInGrace(gracePeriodEnd time.Time) xpv1.Condition {
-	return xpv1.Condition{
+func LicenseExpiredInGrace(gracePeriodEnd time.Time) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -100,8 +100,8 @@ func LicenseExpiredInGrace(gracePeriodEnd time.Time) xpv1.Condition {
 }
 
 // LicenseExpiredFinal indicates that the license has expired and grace period has ended.
-func LicenseExpiredFinal() xpv1.Condition {
-	return xpv1.Condition{
+func LicenseExpiredFinal() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -111,8 +111,8 @@ func LicenseExpiredFinal() xpv1.Condition {
 }
 
 // LicenseInvalid indicates that the license validation failed.
-func LicenseInvalid(err error) xpv1.Condition {
-	return xpv1.Condition{
+func LicenseInvalid(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeLicenseValid,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -122,8 +122,8 @@ func LicenseInvalid(err error) xpv1.Condition {
 }
 
 // UsageCompliant indicates that the current usage is within the licensed capacity.
-func UsageCompliant() xpv1.Condition {
-	return xpv1.Condition{
+func UsageCompliant() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeUsageCompliant,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -133,8 +133,8 @@ func UsageCompliant() xpv1.Condition {
 }
 
 // UsageExceedsCapacity indicates that the current usage exceeds the licensed capacity.
-func UsageExceedsCapacity(message string) xpv1.Condition {
-	return xpv1.Condition{
+func UsageExceedsCapacity(message string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeUsageCompliant,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -144,8 +144,8 @@ func UsageExceedsCapacity(message string) xpv1.Condition {
 }
 
 // MeasurementSucceeded indicates that usage measurements are being collected successfully.
-func MeasurementSucceeded(message string) xpv1.Condition {
-	return xpv1.Condition{
+func MeasurementSucceeded(message string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeMeasurementSucceeded,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -155,8 +155,8 @@ func MeasurementSucceeded(message string) xpv1.Condition {
 }
 
 // MeasurementFailed indicates that fetching or processing measurements failed.
-func MeasurementFailed(message string) xpv1.Condition {
-	return xpv1.Condition{
+func MeasurementFailed(message string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeMeasurementSucceeded,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),

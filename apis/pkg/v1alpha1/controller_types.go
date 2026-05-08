@@ -7,8 +7,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	pkgv1 "github.com/crossplane/crossplane/v2/apis/pkg/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -40,7 +40,7 @@ type ControllerSpec struct {
 
 // ControllerStatus represents the observed state of an Controller.
 type ControllerStatus struct {
-	xpv1.ConditionedStatus `json:",inline"`
+	xpv2.ConditionedStatus `json:",inline"`
 	pkgv1.PackageStatus    `json:",inline"`
 }
 
@@ -111,19 +111,19 @@ func (in *Controller) SetResolvedSource(s string) {
 }
 
 // SetConditions sets the status conditions for the Controller.
-func (in *Controller) SetConditions(c ...xpv1.Condition) {
+func (in *Controller) SetConditions(c ...xpv2.Condition) {
 	in.Status.SetConditions(c...)
 }
 
 // GetCondition returns the condition for the given ConditionType if it exists,
 // otherwise returns an empty condition.
-func (in *Controller) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (in *Controller) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return in.Status.GetCondition(ct)
 }
 
 // CleanConditions removes all conditions from the Controller.
 func (in *Controller) CleanConditions() {
-	in.Status.Conditions = []xpv1.Condition{}
+	in.Status.Conditions = []xpv2.Condition{}
 }
 
 // GetSource returns the package source.
@@ -224,6 +224,16 @@ func (in *Controller) GetCommonLabels() map[string]string {
 // SetCommonLabels sets the common labels.
 func (in *Controller) SetCommonLabels(l map[string]string) {
 	in.Spec.CommonLabels = l
+}
+
+// GetCommonAnnotations returns the common annotations.
+func (in *Controller) GetCommonAnnotations() map[string]string {
+	return in.Spec.CommonAnnotations
+}
+
+// SetCommonAnnotations sets the common annotations.
+func (in *Controller) SetCommonAnnotations(a map[string]string) {
+	in.Spec.CommonAnnotations = a
 }
 
 // GetRuntimeConfigRef returns the runtime config reference.

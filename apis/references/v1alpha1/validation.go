@@ -20,10 +20,10 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
-var validGrants = sets.New(xpv1.ManagementActionObserve, xpv1.ManagementActionCreate, xpv1.ManagementActionUpdate, xpv1.ManagementActionDelete, xpv1.ManagementActionAll)
+var validGrants = sets.New(xpv2.ManagementActionObserve, xpv2.ManagementActionCreate, xpv2.ManagementActionUpdate, xpv2.ManagementActionDelete, xpv2.ManagementActionAll)
 
 // ValidateObjectReference validates an ObjectReference.
 func ValidateObjectReference(pth *field.Path, r *ObjectReference) []error {

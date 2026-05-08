@@ -18,7 +18,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/json"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 )
 
@@ -145,19 +145,19 @@ func (j *JSONObject) String() string {
 }
 
 // GetCondition implements the Conditioned interface.
-func (j *JSONObject) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	conditioned := xpv1.ConditionedStatus{}
+func (j *JSONObject) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	conditioned := xpv2.ConditionedStatus{}
 
 	// The path is directly `status` because conditions are inline.
 	if err := fieldpath.Pave(j.Object).GetValueInto("status", &conditioned); err != nil {
-		return xpv1.Condition{}
+		return xpv2.Condition{}
 	}
 	return conditioned.GetCondition(ct)
 }
 
 // SetConditions implements the Conditioned interface.
-func (j *JSONObject) SetConditions(c ...xpv1.Condition) {
-	conditioned := xpv1.ConditionedStatus{}
+func (j *JSONObject) SetConditions(c ...xpv2.Condition) {
+	conditioned := xpv2.ConditionedStatus{}
 	// The path is directly `status` because conditions are inline.
 	_ = fieldpath.Pave(j.Object).GetValueInto("status", &conditioned)
 	conditioned.SetConditions(c...)

@@ -17,7 +17,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/upbound/up-sdk-go/apis/common"
 	spacesv1alpha1 "github.com/upbound/up-sdk-go/apis/spaces/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -82,7 +82,7 @@ type SpaceBackupDefinition struct {
 	// DeletionPolicy is the policy for the backup.
 	// +kube:validation:Enum=Orphan;Delete
 	// +kubebuilder:default=Orphan
-	DeletionPolicy xpv1.DeletionPolicy `json:"deletionPolicy,omitempty"`
+	DeletionPolicy xpv2.DeletionPolicy `json:"deletionPolicy,omitempty"`
 
 	// Match is the selector for resources that should be included in the backup.
 	// By default, we'll back up all Groups and for each Group:
@@ -154,7 +154,7 @@ type SpaceBackupFailuresConfig struct {
 
 // SpaceBackupStatus represents the observed state of a SpaceBackup.
 type SpaceBackupStatus struct {
-	xpv1.ResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// Phase is the current phase of the backup.
 	// +kubebuilder:validation:Enum=Pending;InProgress;Failed;Completed;Deleted

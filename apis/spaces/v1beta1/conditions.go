@@ -9,67 +9,67 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpcommonv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 const (
 	// ConditionTypeHealthy indicates that the control plane is healthy.
-	ConditionTypeHealthy xpcommonv1.ConditionType = "Healthy"
+	ConditionTypeHealthy xpv2.ConditionType = "Healthy"
 	// ReasonHealthy indicates that the control plane is healthy.
-	ReasonHealthy xpcommonv1.ConditionReason = "HealthyControlPlane"
+	ReasonHealthy xpv2.ConditionReason = "HealthyControlPlane"
 	// ReasonUnhealthy indicates that the control plane is unhealthy.
-	ReasonUnhealthy xpcommonv1.ConditionReason = "UnhealthyControlPlane"
+	ReasonUnhealthy xpv2.ConditionReason = "UnhealthyControlPlane"
 
 	// ConditionTypeControlPlaneProvisioned indicates that the control plane is provisioned.
-	ConditionTypeControlPlaneProvisioned xpcommonv1.ConditionType = "ControlPlaneProvisioned"
+	ConditionTypeControlPlaneProvisioned xpv2.ConditionType = "ControlPlaneProvisioned"
 	// ReasonProvisioned indicates that the control plane is provisioned.
-	ReasonProvisioned xpcommonv1.ConditionReason = "Provisioned"
+	ReasonProvisioned xpv2.ConditionReason = "Provisioned"
 	// ReasonProvisioningError indicates that the control plane provisioning has failed.
-	ReasonProvisioningError xpcommonv1.ConditionReason = "ProvisioningError"
+	ReasonProvisioningError xpv2.ConditionReason = "ProvisioningError"
 
 	// ConditionTypeSourceSynced indicates that the git source is in sync.
-	ConditionTypeSourceSynced xpcommonv1.ConditionType = "SourceSynced"
+	ConditionTypeSourceSynced xpv2.ConditionType = "SourceSynced"
 	// ReasonSourceCompleted indicates that the git sync has been completed.
-	ReasonSourceCompleted xpcommonv1.ConditionReason = "Completed"
+	ReasonSourceCompleted xpv2.ConditionReason = "Completed"
 	// ReasonSourceInProgress indicates that the git sync is still in progress.
-	ReasonSourceInProgress xpcommonv1.ConditionReason = "InProgress"
+	ReasonSourceInProgress xpv2.ConditionReason = "InProgress"
 
 	// ConditionTypeSupported indicates that the control plane is running a
 	// supported version of Crossplane.
-	ConditionTypeSupported xpcommonv1.ConditionType = "Supported"
+	ConditionTypeSupported xpv2.ConditionType = "Supported"
 	// ReasonSupported indicates that the control plane is running
 	// a supported version of Crossplane.
-	ReasonSupported xpcommonv1.ConditionReason = "SupportedCrossplaneVersion"
+	ReasonSupported xpv2.ConditionReason = "SupportedCrossplaneVersion"
 	// ReasonUnsupported indicates that the control plane is running a version
 	// of Crossplane that is not supported.
-	ReasonUnsupported xpcommonv1.ConditionReason = "UnsupportedCrossplaneVersion"
+	ReasonUnsupported xpv2.ConditionReason = "UnsupportedCrossplaneVersion"
 
 	// ConditionTypeRestored indicates that the control plane has been restored from backup.
-	ConditionTypeRestored xpcommonv1.ConditionType = "Restored"
+	ConditionTypeRestored xpv2.ConditionType = "Restored"
 	// ReasonRestoreCompleted indicates that the control plane has been successfully restored from backup.
-	ReasonRestoreCompleted xpcommonv1.ConditionReason = "Completed"
+	ReasonRestoreCompleted xpv2.ConditionReason = "Completed"
 	// ReasonRestoreFailed indicates that the control plane failed to restore from backup.
-	ReasonRestoreFailed xpcommonv1.ConditionReason = "Failed"
+	ReasonRestoreFailed xpv2.ConditionReason = "Failed"
 
 	// ReasonRestorePending indicates that the control plane restore is pending.
-	ReasonRestorePending xpcommonv1.ConditionReason = "RestorePending"
+	ReasonRestorePending xpv2.ConditionReason = "RestorePending"
 
 	// ConditionTypeRunning indicates whether the workloads on the Control Plane
 	// are running or not.
-	ConditionTypeRunning xpcommonv1.ConditionType = "CrossplaneRunning"
+	ConditionTypeRunning xpv2.ConditionType = "CrossplaneRunning"
 	// ReasonPausing indicates that the crossplane and provider workloads are being paused.
-	ReasonPausing xpcommonv1.ConditionReason = "Pausing"
+	ReasonPausing xpv2.ConditionReason = "Pausing"
 	// ReasonPaused indicates that the crossplane and provider workloads have been paused.
-	ReasonPaused xpcommonv1.ConditionReason = "Paused"
+	ReasonPaused xpv2.ConditionReason = "Paused"
 	// ReasonStarting indicates that the crossplane and provider workloads are being started.
-	ReasonStarting xpcommonv1.ConditionReason = "Starting"
+	ReasonStarting xpv2.ConditionReason = "Starting"
 	// ReasonStarted indicates that the crossplane and provider workloads have been started.
-	ReasonStarted xpcommonv1.ConditionReason = "Started"
+	ReasonStarted xpv2.ConditionReason = "Started"
 )
 
 // Healthy returns a condition that indicates the control plane is healthy.
-func Healthy() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func Healthy() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeHealthy,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -78,8 +78,8 @@ func Healthy() xpcommonv1.Condition {
 }
 
 // Unhealthy returns a condition that indicates the control plane is unhealthy.
-func Unhealthy() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func Unhealthy() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeHealthy,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -89,8 +89,8 @@ func Unhealthy() xpcommonv1.Condition {
 
 // ControlPlaneProvisioned returns a condition that indicates the control plane
 // has been provisioned.
-func ControlPlaneProvisioned() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func ControlPlaneProvisioned() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeControlPlaneProvisioned,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -100,8 +100,8 @@ func ControlPlaneProvisioned() xpcommonv1.Condition {
 
 // ControlPlaneProvisionInProgress returns a condition that indicates the control
 // plane is still being provisioned.
-func ControlPlaneProvisionInProgress() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func ControlPlaneProvisionInProgress() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeControlPlaneProvisioned,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -111,8 +111,8 @@ func ControlPlaneProvisionInProgress() xpcommonv1.Condition {
 
 // ControlPlaneProvisioningError returns a condition that indicates the control
 // plane provisioning has failed.
-func ControlPlaneProvisioningError(err error) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func ControlPlaneProvisioningError(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeControlPlaneProvisioned,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -123,8 +123,8 @@ func ControlPlaneProvisioningError(err error) xpcommonv1.Condition {
 
 // SourceSynced returns a condition that indicates the control plane is in sync
 // with the source.
-func SourceSynced(revision string) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func SourceSynced(revision string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeSourceSynced,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -135,8 +135,8 @@ func SourceSynced(revision string) xpcommonv1.Condition {
 
 // SourceInProgress returns a condition that indicates the control plane is still
 // processing resources coming from the source.
-func SourceInProgress(revision string) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func SourceInProgress(revision string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeSourceSynced,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -147,8 +147,8 @@ func SourceInProgress(revision string) xpcommonv1.Condition {
 
 // SourceError returns a condition that indicates the source operation of the
 // control plane has failed.
-func SourceError(err error) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func SourceError(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeSourceSynced,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -159,8 +159,8 @@ func SourceError(err error) xpcommonv1.Condition {
 
 // SupportedCrossplaneVersion returns a condition that indicates that the
 // control plane is running a supported version of Crossplane.
-func SupportedCrossplaneVersion() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func SupportedCrossplaneVersion() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeSupported,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -170,8 +170,8 @@ func SupportedCrossplaneVersion() xpcommonv1.Condition {
 
 // UnsupportedCrossplaneVersion returns a condition that indicates that the
 // control plane is running an unsupported version of Crossplane.
-func UnsupportedCrossplaneVersion(msg string) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func UnsupportedCrossplaneVersion(msg string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeSupported,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -182,8 +182,8 @@ func UnsupportedCrossplaneVersion(msg string) xpcommonv1.Condition {
 
 // RestoreCompleted returns a condition that indicates that the control plane has been
 // restored from backup.
-func RestoreCompleted() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func RestoreCompleted() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRestored,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -194,8 +194,8 @@ func RestoreCompleted() xpcommonv1.Condition {
 
 // RestoreFailed returns a condition that indicates that the control plane failed
 // to restore from backup.
-func RestoreFailed(err error) xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func RestoreFailed(err error) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRestored,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -206,9 +206,9 @@ func RestoreFailed(err error) xpcommonv1.Condition {
 
 // RestorePending returns a condition that indicates that the control plane restore
 // is pending.
-func RestorePending() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
-		Type:               xpcommonv1.TypeReady,
+func RestorePending() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ReasonRestorePending,
@@ -218,8 +218,8 @@ func RestorePending() xpcommonv1.Condition {
 
 // PauseInProgress returns a condition that indicates that the crossplane and
 // provider workloads are being paused.
-func PauseInProgress() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func PauseInProgress() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRunning,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -230,8 +230,8 @@ func PauseInProgress() xpcommonv1.Condition {
 
 // PauseCompleted returns a condition that indicates that the crossplane and
 // provider workloads have been paused.
-func PauseCompleted() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func PauseCompleted() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRunning,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -242,8 +242,8 @@ func PauseCompleted() xpcommonv1.Condition {
 
 // StartInProgress returns a condition that indicates that the crossplane and
 // provider workloads are being restarted.
-func StartInProgress() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func StartInProgress() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRunning,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -254,8 +254,8 @@ func StartInProgress() xpcommonv1.Condition {
 
 // StartCompleted returns a condition that indicates that the crossplane and
 // provider workloads have been restarted.
-func StartCompleted() xpcommonv1.Condition {
-	return xpcommonv1.Condition{
+func StartCompleted() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeRunning,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),

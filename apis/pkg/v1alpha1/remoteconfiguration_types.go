@@ -8,8 +8,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	pkgv1 "github.com/crossplane/crossplane/v2/apis/pkg/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
 // TODO(sttts): Move to up-sdk-go
@@ -46,7 +46,7 @@ type RemoteConfigurationSpec struct {
 
 // RemoteConfigurationStatus represents the observed state of a RemoteConfiguration.
 type RemoteConfigurationStatus struct {
-	xpv1.ConditionedStatus `json:",inline"`
+	xpv2.ConditionedStatus `json:",inline"`
 	pkgv1.PackageStatus    `json:",inline"`
 }
 
@@ -93,18 +93,18 @@ func (in *RemoteConfiguration) SetResolvedSource(s string) {
 }
 
 // SetConditions sets the conditions.
-func (in *RemoteConfiguration) SetConditions(c ...xpv1.Condition) {
+func (in *RemoteConfiguration) SetConditions(c ...xpv2.Condition) {
 	in.Status.SetConditions(c...)
 }
 
 // GetCondition gets the condition.
-func (in *RemoteConfiguration) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (in *RemoteConfiguration) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return in.Status.GetCondition(ct)
 }
 
 // CleanConditions removes all conditions.
 func (in *RemoteConfiguration) CleanConditions() {
-	in.Status.Conditions = []xpv1.Condition{}
+	in.Status.Conditions = []xpv2.Condition{}
 }
 
 // GetSource gets the source package.
@@ -205,4 +205,14 @@ func (in *RemoteConfiguration) GetCommonLabels() map[string]string {
 // SetCommonLabels sets the common labels.
 func (in *RemoteConfiguration) SetCommonLabels(l map[string]string) {
 	in.Spec.CommonLabels = l
+}
+
+// GetCommonAnnotations returns the common annotations.
+func (in *RemoteConfiguration) GetCommonAnnotations() map[string]string {
+	return in.Spec.CommonAnnotations
+}
+
+// SetCommonAnnotations sets the common annotations.
+func (in *RemoteConfiguration) SetCommonAnnotations(a map[string]string) {
+	in.Spec.CommonAnnotations = a
 }

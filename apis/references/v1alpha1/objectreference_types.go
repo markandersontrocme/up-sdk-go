@@ -17,12 +17,12 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // ObjectReference holds the reference to another object.
 type ObjectReference struct {
-	xpv1.TypedReference `json:",inline"`
+	xpv2.TypedReference `json:",inline"`
 
 	// Namespace is the namespace of the referenced object, if the given kind
 	// is namespaced.
@@ -35,7 +35,7 @@ type ObjectReference struct {
 	// The grants are authorized against the referenced object when the
 	// reference is created or updated by the user.
 	// +optional
-	Grants []xpv1.ManagementAction `json:"grants,omitempty"`
+	Grants []xpv2.ManagementAction `json:"grants,omitempty"`
 }
 
 // ObjectsReference holds the reference to multiple objects.
