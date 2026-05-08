@@ -8,7 +8,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // NamespaceBinding defines the specific credentials to be used
@@ -46,12 +46,12 @@ type NamespaceBindingSpec struct {
 	// kubeconfigSecretRef is a reference to a secret that contains a
 	// kubeconfig. The user setting this field needs verb=get permissions
 	// to the referenced secret.
-	KubeconfigSecretRef xpv1.SecretReference `json:"kubeconfigSecretRef,omitempty"`
+	KubeconfigSecretRef xpv2.SecretReference `json:"kubeconfigSecretRef,omitempty"`
 }
 
 // NamespaceBindingStatus defines the observed state of a NamespaceBinding.
 type NamespaceBindingStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// Message provides human-readable information about the current status of
 	// the NamespaceBinding.

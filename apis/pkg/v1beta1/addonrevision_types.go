@@ -7,7 +7,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
@@ -121,19 +121,19 @@ func (in *AddOnRevision) SetResolvedSource(s string) {
 }
 
 // SetConditions sets the status conditions for the AddOnRevision.
-func (in *AddOnRevision) SetConditions(c ...xpv1.Condition) {
+func (in *AddOnRevision) SetConditions(c ...xpv2.Condition) {
 	in.Status.SetConditions(c...)
 }
 
 // GetCondition returns the condition for the given ConditionType if it exists,
 // otherwise returns an empty condition.
-func (in *AddOnRevision) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (in *AddOnRevision) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return in.Status.GetCondition(ct)
 }
 
 // CleanConditions removes all conditions from the AddOnRevision.
 func (in *AddOnRevision) CleanConditions() {
-	in.Status.Conditions = []xpv1.Condition{}
+	in.Status.Conditions = []xpv2.Condition{}
 }
 
 // GetCapabilities of this AddOnRevision.
@@ -147,12 +147,12 @@ func (in *AddOnRevision) SetCapabilities(caps []string) {
 }
 
 // GetObjects returns the objects associated with the AddOnRevision.
-func (in *AddOnRevision) GetObjects() []xpv1.TypedReference {
+func (in *AddOnRevision) GetObjects() []xpv2.TypedReference {
 	return in.Status.ObjectRefs
 }
 
 // SetObjects sets the objects associated with the AddOnRevision.
-func (in *AddOnRevision) SetObjects(c []xpv1.TypedReference) {
+func (in *AddOnRevision) SetObjects(c []xpv2.TypedReference) {
 	in.Status.ObjectRefs = c
 }
 

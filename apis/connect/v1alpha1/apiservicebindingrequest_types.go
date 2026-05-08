@@ -9,7 +9,7 @@ import (
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // APIServiceBindingRequest represents the binding requests of a
@@ -136,7 +136,7 @@ type ControlPlaneNamespaceTarget struct {
 // APIServiceBindingRequestStatus defines the observed state of a APIServiceBindingRequest.
 // It reflects the status of the CRD of the consumer cluster.
 type APIServiceBindingRequestStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// +listType=map
 	// +listMapKey=name

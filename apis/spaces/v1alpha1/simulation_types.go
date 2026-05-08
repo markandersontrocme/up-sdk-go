@@ -20,7 +20,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // +kubebuilder:object:root=true
@@ -128,7 +128,7 @@ const (
 
 // SimulationStatus represents the observed state of a Simulation.
 type SimulationStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// SimulatedControlPlaneName is the name of the control plane used to run
 	// the simulation.

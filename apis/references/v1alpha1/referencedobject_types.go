@@ -22,7 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // ObjectParameters are the configurable fields of a Object.
@@ -115,7 +115,7 @@ type ObjectSpec struct {
 	// and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
 	// +optional
 	// +kubebuilder:default={"*"}
-	ManagementPolicies xpv1.ManagementPolicies `json:"managementPolicies,omitempty"`
+	ManagementPolicies xpv2.ManagementPolicies `json:"managementPolicies,omitempty"`
 
 	// DeletionPolicy specifies what will happen to the underlying external
 	// when this managed resource is deleted - either "Delete" or "Orphan" the
@@ -126,7 +126,7 @@ type ObjectSpec struct {
 	// See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
 	// +optional
 	// +kubebuilder:default=Delete
-	DeletionPolicy xpv1.DeletionPolicy `json:"deletionPolicy,omitempty"`
+	DeletionPolicy xpv2.DeletionPolicy `json:"deletionPolicy,omitempty"`
 
 	// Readiness defines how the object's readiness condition should be computed.
 	// +optional
@@ -192,7 +192,7 @@ type Readiness struct {
 
 // A ObjectStatus represents the observed state of a Object.
 type ObjectStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// AtProvider is the object's observed state.
 	// +optional
@@ -254,32 +254,32 @@ func (r *CompositeReference) GroupVersionKind() schema.GroupVersionKind {
 }
 
 // GetCondition of this ReferencedObject.
-func (mg *ReferencedObject) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ReferencedObject) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ReferencedObject.
-func (mg *ReferencedObject) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ReferencedObject) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ReferencedObject.
-func (mg *ReferencedObject) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ReferencedObject) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // SetConditions of this ReferencedObject.
-func (mg *ReferencedObject) SetConditions(c ...xpv1.Condition) {
+func (mg *ReferencedObject) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ReferencedObject.
-func (mg *ReferencedObject) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ReferencedObject) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ReferencedObject.
-func (mg *ReferencedObject) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ReferencedObject) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 

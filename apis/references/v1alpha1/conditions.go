@@ -22,48 +22,48 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 const (
 	// ConditionReasonManifestInvalid says that the ReferencedObject.spec.forProvider is
 	// invalid.
-	ConditionReasonManifestInvalid xpv1.ConditionReason = "ManifestInvalid"
+	ConditionReasonManifestInvalid xpv2.ConditionReason = "ManifestInvalid"
 
 	// ConditionReasonCompositeNotFound says that the composite was not found.
 	// It's used with the Synced condition.
-	ConditionReasonCompositeNotFound xpv1.ConditionReason = "CompositeNotFound"
+	ConditionReasonCompositeNotFound xpv2.ConditionReason = "CompositeNotFound"
 
 	// ConditionReasonCompositeError says that some other composite error
 	// occurred. It's used with the Synced condition.
-	ConditionReasonCompositeError xpv1.ConditionReason = "CompositeError"
+	ConditionReasonCompositeError xpv2.ConditionReason = "CompositeError"
 
 	// ConditionReasonClaimNotFound says that the claim was not found. It's
 	// used with the Synced condition.
-	ConditionReasonClaimNotFound xpv1.ConditionReason = "ClaimNotFound"
+	ConditionReasonClaimNotFound xpv2.ConditionReason = "ClaimNotFound"
 
 	// ConditionReasonClaimError says that some other claim error
 	// occurred. It's used with the Synced condition.
-	ConditionReasonClaimError xpv1.ConditionReason = "ClaimError"
+	ConditionReasonClaimError xpv2.ConditionReason = "ClaimError"
 
 	// ConditionReasonRemoteReferenceNotFound says that the referenced object was not
 	// found. It's used with the Synced condition.
-	ConditionReasonRemoteReferenceNotFound xpv1.ConditionReason = "RemoteReferencedObjectNotFound"
+	ConditionReasonRemoteReferenceNotFound xpv2.ConditionReason = "RemoteReferencedObjectNotFound"
 
 	// ConditionReasonRemoteJSONPathInvalid says that the JSONPath in the
 	// ReferencedObject.spec.composite.JSONPath is invalid.
-	ConditionReasonRemoteJSONPathInvalid xpv1.ConditionReason = "JSONPathInvalid"
+	ConditionReasonRemoteJSONPathInvalid xpv2.ConditionReason = "JSONPathInvalid"
 
 	// ConditionReasonRemoteReferencedObjectError says that some other remote reference
 	// error occurred. It's used with the Synced condition.
-	ConditionReasonRemoteReferencedObjectError xpv1.ConditionReason = "RemoteReferencedObjectError"
+	ConditionReasonRemoteReferencedObjectError xpv2.ConditionReason = "RemoteReferencedObjectError"
 )
 
 // ManifestInvalid returns a condition that indicates that the
 // ReferencedObject.spec.forProvider is invalid.
-func ManifestInvalid() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func ManifestInvalid() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonManifestInvalid,
@@ -72,9 +72,9 @@ func ManifestInvalid() xpv1.Condition {
 
 // CompositeError returns a condition that indicates that the composite
 // reference has an error.
-func CompositeError(err error) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func CompositeError(err error) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonCompositeError,
 		Message:            err.Error(),
@@ -84,9 +84,9 @@ func CompositeError(err error) xpv1.Condition {
 
 // CompositeNotFound returns a condition that indicates that the composite
 // reference.
-func CompositeNotFound() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func CompositeNotFound() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonCompositeNotFound,
 		Message:            "Composite not found",
@@ -96,9 +96,9 @@ func CompositeNotFound() xpv1.Condition {
 
 // ClaimReferenceNotFound returns a condition that indicates that the claim
 // is undefined at the given JSONPath.
-func ClaimReferenceNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName, jsonPath string) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func ClaimReferenceNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName, jsonPath string) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonClaimError,
 		Message:            fmt.Sprintf("Field %s in claim %s %q is undefined", jsonPath, gvk.Kind, nname),
@@ -107,9 +107,9 @@ func ClaimReferenceNotFound(gvk schema.GroupVersionKind, nname types.NamespacedN
 }
 
 // ClaimError returns a condition that indicates an error with the claim.
-func ClaimError(gvk schema.GroupVersionKind, nname types.NamespacedName, err error) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func ClaimError(gvk schema.GroupVersionKind, nname types.NamespacedName, err error) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonClaimError,
 		Message:            fmt.Sprintf("Claim %s %q error: %v", gvk.Kind, nname, err),
@@ -118,9 +118,9 @@ func ClaimError(gvk schema.GroupVersionKind, nname types.NamespacedName, err err
 }
 
 // ClaimNotFound returns a condition that indicates that the claim was not found.
-func ClaimNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func ClaimNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonClaimNotFound,
 		Message:            fmt.Sprintf("Claim %s %q not found", gvk.Kind, nname),
@@ -130,9 +130,9 @@ func ClaimNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName) xpv1
 
 // RemoteReferencedObjectNotFound returns a condition that indicates that the
 // remote referenced object was not found.
-func RemoteReferencedObjectNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func RemoteReferencedObjectNotFound(gvk schema.GroupVersionKind, nname types.NamespacedName) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionTrue,
 		Reason:             ConditionReasonRemoteReferenceNotFound,
 		Message:            fmt.Sprintf("Referenced %s %q not found", gvk.Kind, nname),
@@ -142,9 +142,9 @@ func RemoteReferencedObjectNotFound(gvk schema.GroupVersionKind, nname types.Nam
 
 // RemoteJSONPathInvalid returns a condition that indicates that the JSONPath in
 // the ReferencedObject.spec.composite.JSONPath is invalid.
-func RemoteJSONPathInvalid(err error) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func RemoteJSONPathInvalid(err error) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonRemoteJSONPathInvalid,
 		Message:            err.Error(),
@@ -154,9 +154,9 @@ func RemoteJSONPathInvalid(err error) xpv1.Condition {
 
 // RemoteReferencedObjectError returns a condition that indicates that the
 // remote referenced object has an error.
-func RemoteReferencedObjectError(err error) xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeSynced,
+func RemoteReferencedObjectError(err error) xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeSynced,
 		Status:             corev1.ConditionFalse,
 		Reason:             ConditionReasonRemoteReferencedObjectError,
 		Message:            err.Error(),
@@ -205,9 +205,9 @@ const (
 // ReadyObjectSynced returns a condition that indicates that the object is
 // synced because the readiness policy is ObjectSynced and the sync was
 // successful.
-func ReadyObjectSynced() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func ReadyObjectSynced() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectSynced,
@@ -217,9 +217,9 @@ func ReadyObjectSynced() xpv1.Condition {
 // UnreadyObjectNotSynced returns a condition that indicates that the object is
 // not synced because the readiness policy is ObjectExists and the sync was not
 // successful.
-func UnreadyObjectNotSynced() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func UnreadyObjectNotSynced() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectNotSynced,
@@ -229,9 +229,9 @@ func UnreadyObjectNotSynced() xpv1.Condition {
 // UnreadyObjectSyncedUnknown returns a condition that indicates that the object
 // is synced because the readiness policy is ObjectExists and the sync state is
 // unknown.
-func UnreadyObjectSyncedUnknown() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func UnreadyObjectSyncedUnknown() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionUnknown,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectSyncedUnknown,
@@ -240,9 +240,9 @@ func UnreadyObjectSyncedUnknown() xpv1.Condition {
 
 // UnreadyObjectNotFound returns a condition that indicates that the object is
 // not found.
-func UnreadyObjectNotFound() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func UnreadyObjectNotFound() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectNotFound,
@@ -251,9 +251,9 @@ func UnreadyObjectNotFound() xpv1.Condition {
 
 // ReadyObjectExists returns a condition that indicates that the object is found
 // and the readiness policy is ObjectExists.
-func ReadyObjectExists() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func ReadyObjectExists() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectExists,
@@ -263,9 +263,9 @@ func ReadyObjectExists() xpv1.Condition {
 // ReadyObjectAllConditionsTrue returns a condition that indicates that the
 // object's conditions are all true and the readiness policy is
 // ObjectConditionsAllTrue.
-func ReadyObjectAllConditionsTrue() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func ReadyObjectAllConditionsTrue() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectAllConditionsTrue,
@@ -275,9 +275,9 @@ func ReadyObjectAllConditionsTrue() xpv1.Condition {
 // UnreadyObjectNotAllConditionsTrue returns a condition that indicates that the
 // object's conditions are not all true and the readiness policy is
 // ObjectConditionsAllTrue.
-func UnreadyObjectNotAllConditionsTrue() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func UnreadyObjectNotAllConditionsTrue() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectNotAllConditionsTrue,
@@ -286,9 +286,9 @@ func UnreadyObjectNotAllConditionsTrue() xpv1.Condition {
 
 // UnreadyObjectInvalid returns a condition that indicates that the object is
 // invalid.
-func UnreadyObjectInvalid() xpv1.Condition {
-	return xpv1.Condition{
-		Type:               xpv1.TypeReady,
+func UnreadyObjectInvalid() xpv2.Condition {
+	return xpv2.Condition{
+		Type:               xpv2.TypeReady,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
 		Reason:             ConditionReasonReadyObjectInvalid,

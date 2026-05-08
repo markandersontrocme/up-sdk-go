@@ -17,15 +17,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // GetCondition of this License.
-func (r *License) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (r *License) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return r.Status.GetCondition(ct)
 }
 
 // SetConditions of this License.
-func (r *License) SetConditions(c ...xpv1.Condition) {
+func (r *License) SetConditions(c ...xpv2.Condition) {
 	r.Status.SetConditions(c...)
 }

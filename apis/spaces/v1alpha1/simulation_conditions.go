@@ -18,7 +18,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // Condition types.
@@ -26,21 +26,21 @@ const (
 	// TypeAcceptingChanges indicates the simulated control plane is accepting
 	// changes. All changes detected while this condition is true will appear in
 	// the change summary.
-	TypeAcceptingChanges xpv1.ConditionType = "AcceptingChanges"
+	TypeAcceptingChanges xpv2.ConditionType = "AcceptingChanges"
 )
 
 // Reasons a simulation is or isn't accepting changes.
 const (
-	ReasonSimulationStarting   xpv1.ConditionReason = "SimulationStarting"
-	ReasonSimulationRunning    xpv1.ConditionReason = "SimulationRunning"
-	ReasonSimulationComplete   xpv1.ConditionReason = "SimulationComplete"
-	ReasonSimulationTerminated xpv1.ConditionReason = "SimulationTerminated"
+	ReasonSimulationStarting   xpv2.ConditionReason = "SimulationStarting"
+	ReasonSimulationRunning    xpv2.ConditionReason = "SimulationRunning"
+	ReasonSimulationComplete   xpv2.ConditionReason = "SimulationComplete"
+	ReasonSimulationTerminated xpv2.ConditionReason = "SimulationTerminated"
 )
 
 // SimulationStarting indicates a Simulation is still starting. It isn't yet
 // ready to accept changes.
-func SimulationStarting() xpv1.Condition {
-	return xpv1.Condition{
+func SimulationStarting() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeAcceptingChanges,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -50,8 +50,8 @@ func SimulationStarting() xpv1.Condition {
 
 // SimulationRunning indicates a Simulation is running, and ready to accept
 // changes.
-func SimulationRunning() xpv1.Condition {
-	return xpv1.Condition{
+func SimulationRunning() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeAcceptingChanges,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -62,8 +62,8 @@ func SimulationRunning() xpv1.Condition {
 // SimulationComplete indicates a Simulation is complete, and no longer ready to
 // accept changes. A SimulationComplete Simuluation's simulated control plane
 // keeps running until the Simulation is terminated.
-func SimulationComplete() xpv1.Condition {
-	return xpv1.Condition{
+func SimulationComplete() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeAcceptingChanges,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -73,8 +73,8 @@ func SimulationComplete() xpv1.Condition {
 
 // SimulationTerminated indicates a Simulation is terminated. The simulated
 // control plane is deleted when a simulation is terminated.
-func SimulationTerminated() xpv1.Condition {
-	return xpv1.Condition{
+func SimulationTerminated() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               TypeAcceptingChanges,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),

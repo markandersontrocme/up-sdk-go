@@ -19,7 +19,7 @@ import (
 
 	"github.com/upbound/up-sdk-go/apis/common"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -130,7 +130,7 @@ type SharedTelemetryConfigSpec struct {
 // ConfigPatchSecretRef defines a config patch sourced from a secret to be
 // applied to the telemetry configuration.
 type ConfigPatchSecretRef struct {
-	xpv1.LocalSecretReference `json:",inline"`
+	xpv2.LocalSecretReference `json:",inline"`
 	// Key in the secret from which to source the patch.
 	// +kubebuilder:validation:Required
 	Key string `json:"key"`
@@ -167,7 +167,7 @@ type Pipeline struct {
 
 // SharedTelemetryConfigStatus represents the observed state of a SharedTelemetryConfig.
 type SharedTelemetryConfigStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// SelectedControlPlanes represents the names of the selected ControlPlanes.
 	// +optional
@@ -188,7 +188,7 @@ type SharedTelemetryConfigStatus struct {
 
 // SharedTelemetryConfigProvisioningFailure defines configuration provisioning failure.
 type SharedTelemetryConfigProvisioningFailure struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// ControlPlane name where the failure occurred.
 	ControlPlane string `json:"controlPlane"`
@@ -197,31 +197,31 @@ type SharedTelemetryConfigProvisioningFailure struct {
 const (
 	// ConditionTypeFailed indicates that the controlplane telemetry
 	// provisioning has failed.
-	ConditionTypeFailed xpv1.ConditionType = "Failed"
+	ConditionTypeFailed xpv2.ConditionType = "Failed"
 	// ConditionTypeValidated indicates if the telemetry configuration
 	// is valid.
-	ConditionTypeValidated xpv1.ConditionType = "Validated"
+	ConditionTypeValidated xpv2.ConditionType = "Validated"
 )
 
 const (
 	// ReasonSelectorConflict indicates that the controplane was selected by
 	// multiple SharedTelemetryConfigs.
-	ReasonSelectorConflict xpv1.ConditionReason = "SelectorConflict"
+	ReasonSelectorConflict xpv2.ConditionReason = "SelectorConflict"
 	// ReasonInvalidConfig indicates that the telemetry configuration is
 	// invalid.
-	ReasonInvalidConfig xpv1.ConditionReason = "InvalidTelemetryConfig"
+	ReasonInvalidConfig xpv2.ConditionReason = "InvalidTelemetryConfig"
 	// ReasonValidExportConfig indicates that the telemetry export configuration has
 	// been tested and is valid.
-	ReasonValidExportConfig xpv1.ConditionReason = "ValidExportConfig"
+	ReasonValidExportConfig xpv2.ConditionReason = "ValidExportConfig"
 	// ReasonInvalidExportConfig indicates that the telemetry export configuration has
 	// been tested and is invalid.
-	ReasonInvalidExportConfig xpv1.ConditionReason = "InvalidExportConfig"
+	ReasonInvalidExportConfig xpv2.ConditionReason = "InvalidExportConfig"
 )
 
 // SelectorConflict returns a condition that indicates the controlplane is
 // selected by multiple SharedTelemetryConfigs.
-func SelectorConflict(msg string) xpv1.Condition {
-	return xpv1.Condition{
+func SelectorConflict(msg string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -232,8 +232,8 @@ func SelectorConflict(msg string) xpv1.Condition {
 
 // InvalidConfig returns a condition that indicates the controlplane
 // OpenTelemetry configuration is invalid.
-func InvalidConfig(msg string) xpv1.Condition {
-	return xpv1.Condition{
+func InvalidConfig(msg string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeFailed,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),
@@ -244,8 +244,8 @@ func InvalidConfig(msg string) xpv1.Condition {
 
 // InvalidExportConfig returns a condition that indicates the telemetry export
 // configuration is invalid.
-func InvalidExportConfig(msg string) xpv1.Condition {
-	return xpv1.Condition{
+func InvalidExportConfig(msg string) xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeValidated,
 		Status:             corev1.ConditionFalse,
 		LastTransitionTime: metav1.Now(),
@@ -256,8 +256,8 @@ func InvalidExportConfig(msg string) xpv1.Condition {
 
 // ValidExportConfig returns a condition that indicates the telemetry export
 // configuration is valid.
-func ValidExportConfig() xpv1.Condition {
-	return xpv1.Condition{
+func ValidExportConfig() xpv2.Condition {
+	return xpv2.Condition{
 		Type:               ConditionTypeValidated,
 		Status:             corev1.ConditionTrue,
 		LastTransitionTime: metav1.Now(),

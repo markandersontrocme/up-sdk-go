@@ -9,7 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 // APIServiceBinding binds an API service represented by an APIServiceExport
@@ -50,7 +50,7 @@ type APIServiceBindingSpec struct {
 	// that was created at the Upbound Space for the particular
 	// app cluster.
 	// +required
-	KubeconfigSecretRef xpv1.SecretReference `json:"kubeconfigSecretRef,omitempty"`
+	KubeconfigSecretRef xpv2.SecretReference `json:"kubeconfigSecretRef,omitempty"`
 	// export is a reference of a target APIServiceExport to bind to.
 	// +required
 	Export APIServiceExportRef `json:"export,omitempty"`
@@ -120,7 +120,7 @@ const (
 // APIServiceBindingStatus defines the status of a APIServiceBinding.
 // Reports the APIServiceExport that was bound to, and the success status.
 type APIServiceBindingStatus struct {
-	xpv1.ManagedResourceStatus `json:",inline"`
+	xpv2.ManagedResourceStatus `json:",inline"`
 
 	// Message provides human-readable information about the current status of
 	// the APIServiceBinding.

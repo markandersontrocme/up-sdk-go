@@ -8,7 +8,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	pkgv1 "github.com/crossplane/crossplane/apis/v2/pkg/v1"
 )
 
@@ -90,18 +90,18 @@ func (in *RemoteConfigurationRevision) SetResolvedSource(s string) {
 }
 
 // SetConditions sets the conditions.
-func (in *RemoteConfigurationRevision) SetConditions(c ...xpv1.Condition) {
+func (in *RemoteConfigurationRevision) SetConditions(c ...xpv2.Condition) {
 	in.Status.SetConditions(c...)
 }
 
 // GetCondition gets the condition.
-func (in *RemoteConfigurationRevision) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (in *RemoteConfigurationRevision) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return in.Status.GetCondition(ct)
 }
 
 // CleanConditions removes all conditions.
 func (in *RemoteConfigurationRevision) CleanConditions() {
-	in.Status.Conditions = []xpv1.Condition{}
+	in.Status.Conditions = []xpv2.Condition{}
 }
 
 // GetCapabilities of this RemoteConfigurationRevision.
@@ -115,12 +115,12 @@ func (in *RemoteConfigurationRevision) SetCapabilities(caps []string) {
 }
 
 // GetObjects returns the objects.
-func (in *RemoteConfigurationRevision) GetObjects() []xpv1.TypedReference {
+func (in *RemoteConfigurationRevision) GetObjects() []xpv2.TypedReference {
 	return in.Status.ObjectRefs
 }
 
 // SetObjects sets the objects.
-func (in *RemoteConfigurationRevision) SetObjects(c []xpv1.TypedReference) {
+func (in *RemoteConfigurationRevision) SetObjects(c []xpv2.TypedReference) {
 	in.Status.ObjectRefs = c
 }
 
