@@ -184,7 +184,6 @@ type CrossplaneSpec struct {
 	// +kubebuilder:default=Running
 	State *CrossplaneState `json:"state,omitempty"`
 
-	// [[GATE:EnableManagedResourceActivationPolicy]]
 	// DefaultManagedResourceActivationPolicy configures the "default" ManagedResourceActivationPolicy of the control plane, on Crossplane 2.x only.
 	// It overrides the Space-wide default. When unset, the Space-wide default
 	// applies, and when nothing is set anywhere the policy is left entirely for
