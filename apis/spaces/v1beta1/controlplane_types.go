@@ -102,7 +102,7 @@ const (
 	ClassDefault = "default"
 )
 
-// ManagedResourceActivation defines which ManagedResourceDefinitions a control
+// ManagedResourceActivationMode defines which ManagedResourceDefinitions a control
 // plane activates by default.
 type ManagedResourceActivationMode string
 
@@ -119,9 +119,9 @@ const (
 )
 
 // CrossplaneDefaultManagedResourceActivationPolicySpec configures the
-// ManagedResourceActivationPolicy named "default" that UXP pre-installs in a
-// control plane. It does not configure any other activation policy: a control
-// plane's owner remains free to create their own. It only applies to control
+// ManagedResourceActivationPolicy named "default" in a control plane. It does
+// not configure any other activation policy: a control plane's owner remains
+// free to create their own. It only applies to control
 // planes running Crossplane 2.x, where ManagedResourceDefinitions and
 // activation policies exist.
 type CrossplaneDefaultManagedResourceActivationPolicySpec struct {
@@ -184,11 +184,12 @@ type CrossplaneSpec struct {
 	// +kubebuilder:default=Running
 	State *CrossplaneState `json:"state,omitempty"`
 
-	// DefaultManagedResourceActivationPolicy configures the "default" ManagedResourceActivationPolicy of the control plane, on Crossplane 2.x only.
-	// It overrides the Space-wide default. When unset, the Space-wide default
-	// applies, and when nothing is set anywhere the policy is left entirely for
-	// the control plane's owner to manage. Ignored on Crossplane 1.x control
-	// planes, which have no activation policies.
+	// DefaultManagedResourceActivationPolicy configures the "default"
+	// ManagedResourceActivationPolicy of the control plane, on Crossplane 2.x
+	// only. It overrides the Space-wide default. When unset, the Space-wide
+	// default applies, and when nothing is set anywhere the policy activates
+	// every ManagedResourceDefinition, as Crossplane does by default. Ignored on
+	// Crossplane 1.x control planes, which have no activation policies.
 	// +optional
 	DefaultManagedResourceActivationPolicy *CrossplaneDefaultManagedResourceActivationPolicySpec `json:"defaultManagedResourceActivationPolicy,omitempty"`
 }
