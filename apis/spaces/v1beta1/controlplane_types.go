@@ -102,6 +102,50 @@ const (
 	ClassDefault = "default"
 )
 
+// ManagedResourceActivationMode defines which ManagedResourceDefinitions a control
+// plane activates by default.
+type ManagedResourceActivationMode string
+
+const (
+	// ManagedResourceActivationModeAll activates every
+	// ManagedResourceDefinition offered by the installed providers. This is
+	// Crossplane's own default.
+	ManagedResourceActivationModeAll ManagedResourceActivationMode = "All"
+
+	// ManagedResourceActivationModeNone activates no
+	// ManagedResourceDefinition, letting providers scale to zero until
+	// something activates the managed resources actually in use.
+	ManagedResourceActivationModeNone ManagedResourceActivationMode = "None"
+)
+
+// CrossplaneDefaultManagedResourceActivationPolicySpec configures the
+// ManagedResourceActivationPolicy named "default" in a control plane. It does
+// not configure any other activation policy: a control plane's owner remains
+// free to create their own. It only applies to control
+// planes running Crossplane 2.x, where ManagedResourceDefinitions and
+// activation policies exist.
+type CrossplaneDefaultManagedResourceActivationPolicySpec struct {
+	// Mode selects which ManagedResourceDefinitions the "default"
+	// ManagedResourceActivationPolicy activates.
+	// - All: activate every ManagedResourceDefinition the installed providers
+	//   offer. This is Crossplane's own default.
+	// - None: activate none of them, so providers can scale to zero until a
+	//   ManagedResourceActivationPolicy activates what is actually in use.
+	//
+	// Activation is one-way in Crossplane: a ManagedResourceDefinition that is
+	// already Active cannot go back to Inactive. None therefore prevents
+	// further activation rather than undoing it, and only delivers provider
+	// scale-to-zero on a control plane whose managed resources were never
+	// activated.
+	//
+	// Whenever this is set, Spaces reconciles the "default"
+	// ManagedResourceActivationPolicy to match, so changes take effect on a
+	// running control plane and manual edits to that object are reverted.
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Enum=All;None
+	Mode ManagedResourceActivationMode `json:"mode"`
+}
+
 // CrossplaneAutoUpgradeSpec defines the auto upgrade policy for Crossplane.
 type CrossplaneAutoUpgradeSpec struct {
 	// Channel defines the upgrade channels for Crossplane. We support the following channels where 'Stable' is the
@@ -139,6 +183,15 @@ type CrossplaneSpec struct {
 	// +kubebuilder:validation:Enum=Running;Paused
 	// +kubebuilder:default=Running
 	State *CrossplaneState `json:"state,omitempty"`
+
+	// DefaultManagedResourceActivationPolicy configures the "default"
+	// ManagedResourceActivationPolicy of the control plane, on Crossplane 2.x
+	// only. It overrides the Space-wide default. When unset, the Space-wide
+	// default applies, and when nothing is set anywhere the policy activates
+	// every ManagedResourceDefinition, as Crossplane does by default. Ignored on
+	// Crossplane 1.x control planes, which have no activation policies.
+	// +optional
+	DefaultManagedResourceActivationPolicy *CrossplaneDefaultManagedResourceActivationPolicySpec `json:"defaultManagedResourceActivationPolicy,omitempty"`
 }
 
 // A SecretReference is a reference to a secret in an arbitrary namespace.
