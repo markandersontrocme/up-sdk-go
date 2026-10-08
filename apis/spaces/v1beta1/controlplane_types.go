@@ -113,8 +113,9 @@ const (
 	ManagedResourceActivationModeAll ManagedResourceActivationMode = "All"
 
 	// ManagedResourceActivationModeNone activates no
-	// ManagedResourceDefinition, letting providers scale to zero until
-	// something activates the managed resources actually in use.
+	// ManagedResourceDefinition. Those of providers with the safe-start
+	// capability stay inactive until a ManagedResourceActivationPolicy
+	// activates them; other providers are unaffected.
 	ManagedResourceActivationModeNone ManagedResourceActivationMode = "None"
 )
 
@@ -129,18 +130,24 @@ type CrossplaneDefaultManagedResourceActivationPolicySpec struct {
 	// ManagedResourceActivationPolicy activates.
 	// - All: activate every ManagedResourceDefinition the installed providers
 	//   offer. This is Crossplane's own default.
-	// - None: activate none of them, so providers can scale to zero until a
-	//   ManagedResourceActivationPolicy activates what is actually in use.
+	// - None: activate none of them. The ManagedResourceDefinitions of
+	//   providers with the safe-start capability stay inactive, so their CRDs
+	//   are not installed, until a ManagedResourceActivationPolicy activates
+	//   them. From UXP v2.4.2-up.1, such a provider's runtime is also scaled
+	//   to zero until its first ManagedResourceDefinition is activated; on
+	//   earlier versions its pods keep running.
+	//
+	// Activation policies only gate providers with the safe-start capability.
+	// Crossplane activates every ManagedResourceDefinition of any other
+	// provider regardless of this setting.
 	//
 	// Activation is one-way in Crossplane: a ManagedResourceDefinition that is
 	// already Active cannot go back to Inactive. None therefore prevents
-	// further activation rather than undoing it, and only delivers provider
-	// scale-to-zero on a control plane whose managed resources were never
-	// activated.
+	// further activation rather than undoing it, and does not scale down a
+	// provider that already has an active ManagedResourceDefinition.
 	//
-	// Whenever this is set, Spaces reconciles the "default"
-	// ManagedResourceActivationPolicy to match, so changes take effect on a
-	// running control plane and manual edits to that object are reverted.
+	// Spaces reconciles the "default" ManagedResourceActivationPolicy to
+	// match, so changes take effect on a running control plane.
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Enum=All;None
 	Mode ManagedResourceActivationMode `json:"mode"`
@@ -190,6 +197,11 @@ type CrossplaneSpec struct {
 	// default applies, and when nothing is set anywhere the policy activates
 	// every ManagedResourceDefinition, as Crossplane does by default. Ignored on
 	// Crossplane 1.x control planes, which have no activation policies.
+	//
+	// In a Space with this alpha feature enabled, Spaces manages the "default"
+	// policy of every Crossplane 2.x control plane whether or not this is set,
+	// and reverts manual edits to it. Keep other activations in policies with
+	// other names.
 	// +optional
 	DefaultManagedResourceActivationPolicy *CrossplaneDefaultManagedResourceActivationPolicySpec `json:"defaultManagedResourceActivationPolicy,omitempty"`
 }
