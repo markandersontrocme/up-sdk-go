@@ -17,6 +17,7 @@ import (
 //
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={upbound}
+// +kubebuilder:deprecatedversion:warning="ControllerRuntimeConfig.pkg.upbound.io/v1alpha1 is deprecated and will be removed in a future release. Use AddOnRuntimeConfig from pkg.upbound.io/v1beta1 on UXP v2 control planes instead."
 type ControllerRuntimeConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
